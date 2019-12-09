@@ -18,6 +18,21 @@ server.get("/", (req, res) => {
     });
 });
 
+//Delete account by id
+server.delete("/:id", (req, res) => {
+  const id = req.params.id;
+  db("accounts")
+    .where({ id })
+    .del()
+    .then(recordsDeleted => {
+      res.status(200).json({ message: `${recordsDeleted} record(s) deleted` });
+    })
+    .catch(err => {
+      console.log("error trying to delete account", err);
+      res.status(500).json({ error: "Could not delete account, server error" });
+    });
+});
+
 //Get account by id
 server.get("/:id", (req, res) => {
   const id = req.params.id;
